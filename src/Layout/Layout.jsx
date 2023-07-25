@@ -3,6 +3,24 @@ import Footer from './Footer';
 import Header from './Header';
 
 const Nav = (props) => {
+  let content = null;
+  let [mode, setMode] = useState('WELCOME');
+  let [id, setId] = useState(null);
+  let title,
+    body = null;
+  console.log(id);
+  if (mode === 'WELCOME') {
+    content = <Footer title="WELCOME" />;
+  } else {
+    for (let i = 0; i < props.menus.length; i++) {
+      console.log(props.menus[i].id, id);
+      if (props.menus[i].id === id) {
+        title = props.menus[i].title;
+        body = props.menus[i].body;
+      }
+    }
+    content = <Footer title={title} body={body} />;
+  }
   const lis = [];
   for (let i = 0; i < props.menus.length; i++) {
     lis.push(
@@ -11,7 +29,8 @@ const Nav = (props) => {
         id={props.menus[i].id}
         onClick={function (event) {
           event.preventDefault();
-          props.onChangeMode(Number(props.menus[i].id));
+          setMode('Read');
+          setId(props.menus[i].id);
         }}
       >
         <li>{props.menus[i].title}</li>
@@ -19,9 +38,12 @@ const Nav = (props) => {
     );
   }
   return (
-    <nav>
-      <ol>{lis}</ol>
-    </nav>
+    <div>
+      <nav>
+        <ol>{lis}</ol>
+      </nav>
+      {content}
+    </div>
   );
 };
 
@@ -31,40 +53,12 @@ const Layout = (props) => {
     { id: 2, title: 'css', body: 'css is css' },
     { id: 3, title: 'javascript', body: 'javascript is javascript' },
   ];
-  let content = null;
-  let [mode, setMode] = useState('WELCOME');
-  let [id, setId] = useState(null);
-  console.log(id);
-  if (mode === 'WELCOME') {
-    content = <Footer title="WELCOME" />;
-  } else {
-    let title,
-      body = null;
-    for (let i = 0; i < menus.length; i++) {
-      console.log(menus[i].id, id);
-      if (menus[i].id === id) {
-        title = menus[i].title;
-        body = menus[i].body;
-      }
-    }
-    content = <Footer title={title} body={body} />;
-  }
+  console.log('dd');
   return (
     <div>
-      <Header
-        onChangeMode={() => {
-          setMode('READ');
-        }}
-      />
-      <Nav
-        menus={menus}
-        onChangeMode={(_id) => {
-          setMode('Read');
-          setId(_id);
-        }}
-      />
+      <Header onChangeMode={() => {}} />
+      <Nav menus={menus} onChangeMode={(_id) => {}} />
       <main>{props.children}</main>
-      {content}
     </div>
   );
 };
