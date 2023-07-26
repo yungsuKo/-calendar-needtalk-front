@@ -8,12 +8,10 @@ const Nav = (props) => {
   let [id, setId] = useState(null);
   let title,
     body = null;
-  console.log(id);
   if (mode === 'WELCOME') {
     content = <Footer title="WELCOME" />;
   } else {
     for (let i = 0; i < props.menus.length; i++) {
-      console.log(props.menus[i].id, id);
       if (props.menus[i].id === id) {
         title = props.menus[i].title;
         body = props.menus[i].body;
@@ -53,12 +51,13 @@ const Layout = (props) => {
     { id: 2, title: 'css', body: 'css is css' },
     { id: 3, title: 'javascript', body: 'javascript is javascript' },
   ];
-  console.log('dd');
+  console.log(props.children);
   return (
     <div>
       <Header onChangeMode={() => {}} />
       <Nav menus={menus} onChangeMode={(_id) => {}} />
       <main>{props.children}</main>
+      <Footer title="this is footer" />
     </div>
   );
 };
