@@ -1,9 +1,11 @@
+import { Desktop, Mobile } from '../hooks/useResponsive';
 import Layout from '../layout/Layout';
 
 const HomePage = () => {
   return (
     <Layout>
-      <div>this is home page</div>
+      <Desktop></Desktop>
+      <Mobile></Mobile>
     </Layout>
   );
 };
