@@ -13,13 +13,13 @@ const useDetectHanlder = (initialState) => {
       if (ref.current !== null && !ref.current.contains(e.target)) {
         setIsOpen(!isOpen);
       }
+    };
 
-      if (isOpen) {
-        window.addEventListener('click', onClick);
-      }
-      return () => {
-        window.removeEventListener('click', onClick);
-      };
+    if (isOpen) {
+      window.addEventListener('click', onClick);
+    }
+    return () => {
+      window.removeEventListener('click', onClick);
     };
   }, [isOpen]);
 
