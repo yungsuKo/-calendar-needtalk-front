@@ -40,6 +40,7 @@ export const MenuNavLink = styled(NavLink)`
 export const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   max-width: 1020px;
   padding: 0 20px;
   margin: 0 auto;
@@ -61,4 +62,13 @@ export const AccountDropdown = styled(Dropdown)`
   border: 1px solid gray;
   border-radius: 6px;
   background-color: white;
+`;
+
+export const Button = styled.button`
+  padding: 8px 16px;
+  background-color: #006bff;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  align-items: center;
 `;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Footer from './Footer';
-import Header from './Header';
+import Footer from './components/Footer';
+import Header from './components/Header';
 import { Desktop, Mobile } from '../hooks/useResponsive';
 
 // const Nav = (props) => {
@@ -57,11 +57,9 @@ const Layout = (props) => {
     <div>
       <Desktop>
         <Header onChangeMode={() => {}} />
+        {props.children}
+        <Footer title="this is footer" />
       </Desktop>
-
-      {/* <Nav menus={menus} onChangeMode={(_id) => {}} /> */}
-      <main>{props.children}</main>
-      <Footer title="this is footer" />
     </div>
   );
 };

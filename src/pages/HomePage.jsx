@@ -1,5 +1,5 @@
 import { Desktop, Mobile } from '../hooks/useResponsive';
-import Layout from '../layout/Layout';
+import Layout from '../Layout/Layout';
 
 const HomePage = () => {
   return (
