@@ -13,21 +13,22 @@ import {
   AccountDropdown,
   Button,
 } from '../HeaderStyle.Component';
+import { useCookies } from 'react-cookie';
 import { useEffect, useRef, useState } from 'react';
 import useDetectHanlder from '../../hooks/useDetectClose';
 import Dropdown from '../components/Dropdown';
 
 const Header = (props) => {
   const [isOpen, myPageRef, mypageHandler] = useDetectHanlder(false);
-  const isLogin = localStorage.getItem('isLogin');
-
+  const [cookies, setCookie] = useCookies();
+  console.log(cookies.accessToken);
   return (
     <Nav>
       <HeaderContainer>
         <a href="/">
           <Logo src={logo}></Logo>
         </a>
-        {isLogin ? (
+        {cookies.accessToken ? (
           <Menu>
             <MenuList>
               <MenuNavLink to="/" activeClassName="active">
