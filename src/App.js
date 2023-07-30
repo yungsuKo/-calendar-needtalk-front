@@ -4,6 +4,7 @@ import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import SignupPage from './features/users/page/SignupPage';
 import { CookiesProvider } from 'react-cookie';
+import { CreateFormPage } from './features/createForm/page/CreateFormPage';
 
 const GlobalStyle = createGlobalStyle`
 ${reset}
@@ -26,6 +27,7 @@ function App() {
           <Route path="/integration" element={<HomePage />}></Route>
           <Route path="/help" element={<HomePage />}></Route>
           <Route path="/signup" element={<SignupPage />}></Route>
+          <Route path="/forms/create" element={<CreateFormPage />}></Route>
         </Routes>
       </CookiesProvider>
     </>

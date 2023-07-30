@@ -34,7 +34,7 @@ export const SignupForm = () => {
     } catch (error) {
       console.log('error :', error);
     }
-    // window.location.href = '/';
+    window.location.href = '/';
   };
 
   return (
