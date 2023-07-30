@@ -19,6 +19,7 @@ import Dropdown from '../components/Dropdown';
 
 const Header = (props) => {
   const [isOpen, myPageRef, mypageHandler] = useDetectHanlder(false);
+  const isLogin = localStorage.getItem('isLogin');
 
   return (
     <Nav>
@@ -26,7 +27,7 @@ const Header = (props) => {
         <a href="/">
           <Logo src={logo}></Logo>
         </a>
-        {props.isLogin ? (
+        {isLogin ? (
           <Menu>
             <MenuList>
               <MenuNavLink to="/" activeClassName="active">

@@ -10,6 +10,8 @@ ${reset}
 const isLogin = false;
 
 function App() {
+  const isLogin = localStorage.getItem('isLogin');
+  console.log(isLogin);
   return (
     <>
       <GlobalStyle />

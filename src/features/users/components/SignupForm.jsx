@@ -1,6 +1,9 @@
 import styled from 'styled-components';
-import GoogleLogin from 'react-google-login';
+// import GoogleLogin from 'react-google-login';
 import { useCallback, useState } from 'react';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 
 const GoogleSignup = styled(GoogleLogin)`
   margin: 50vh auto;
@@ -16,26 +19,33 @@ const GoogleSignup = styled(GoogleLogin)`
 const Container = styled.div``;
 
 export const SignupForm = () => {
-  const [isLogin, setIsLogin] = useState(false);
-  const [userInfo, setUserInfo] = useState('');
-
-  const googleLogin = useCallback((response) => {
-    const userInfo = {
-      profileImg: response.profileObj.imageUrl,
-      email: response.profileObj.email,
-      name: response.profileObj.name,
-    };
-    setIsLogin(true);
-    setUserInfo(userInfo);
-  });
+  const cliendId = process.env.REACT_APP_GOOGLE_CLIENT_KEY;
+  const serverURL = process.env.REACT_APP_SERVER_URL;
+  const googleLogin = async (response) => {
+    // const userInfo = jwtDecode(response.credential);
+    console.log('ii');
+    try {
+      const res = await axios.get(`${serverURL}/api/auth/google/callback`);
+    } catch (error) {
+      console.log('error :', error);
+    }
+    // window.location.href = '/';
+  };
 
   return (
-    <GoogleSignup
-      clientId=""
-      buttonText="Google로 시작하기"
-      onSuccess={googleLogin}
-      onFailure={(res) => console.log(res)}
-      //   cookiePolicy={'single_host_origin'}
-    />
+    <>
+      <GoogleOAuthProvider clientId={cliendId}>
+        <GoogleLogin
+          buttonText="Google로 시작하기"
+          onSuccess={(credentialResponse) => {
+            googleLogin(credentialResponse);
+          }}
+          onError={() => {
+            console.log('loginfail');
+          }}
+        />
+      </GoogleOAuthProvider>
+      {/* <button onClick={googleLogin}>규굴로 시작하기</button> */}
+    </>
   );
 };
