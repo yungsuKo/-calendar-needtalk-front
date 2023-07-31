@@ -8,6 +8,7 @@ import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
+import { getCookie } from '../../../utils/cookies';
 
 export const CreateFormPage = () => {
   const serverURL = process.env.REACT_APP_SERVER_URL;
@@ -38,8 +39,6 @@ export const CreateFormPage = () => {
     },
   });
   const handleChange = (e) => {
-    console.log(values);
-    console.log(e.target.name);
     setValues({
       ...values,
       [e.target.name]: e.target.value,
@@ -49,13 +48,15 @@ export const CreateFormPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(values);
+    console.log(getCookie('accessToken'));
     try {
       const result = await axios({
         url: `${serverURL}/api/forms`,
         method: 'post',
         header: {
-          Cookie: `${Cookies.get('accessToken')}`,
+          Cookie: `${getCookie('accessToken')}`,
         },
+        withCredentials: true,
         body: values,
       });
       console.log(result);
@@ -117,6 +118,7 @@ export const CreateFormPage = () => {
                   fontSize: '16px',
                   lineHeight: '1.5',
                   borderRadius: '8px',
+                  width: '95%',
                 }}
                 range
                 rangeHover
