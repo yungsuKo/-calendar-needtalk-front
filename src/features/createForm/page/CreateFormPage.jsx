@@ -57,11 +57,12 @@ export const CreateFormPage = () => {
           Cookie: `${getCookie('accessToken')}`,
         },
         withCredentials: true,
-        body: values,
+
+        data: { createFormDto: values },
       });
       console.log(result);
     } catch (error) {
-      console.log(error);
+      console.log('err', error);
     }
   };
 
@@ -100,16 +101,22 @@ export const CreateFormPage = () => {
                 }}
                 options={options}
                 id="category"
+                name="category"
               ></Select>
             </FormInputContainer>
             <FormInputContainer>
               <label for="description">Description</label>
-              <FormTextInput id="description"></FormTextInput>
+              <FormTextInput
+                id="description"
+                name="description"
+                onChange={handleChange}
+              ></FormTextInput>
             </FormInputContainer>
             <FormInputContainer>
               <label for="calendar">Calendar</label>
               <DatePicker
                 id="calendar"
+                name="calendar"
                 style={{
                   marginTop: '8px',
                   display: 'block',
@@ -122,6 +129,7 @@ export const CreateFormPage = () => {
                 }}
                 range
                 rangeHover
+                onChange={handleChange}
               />
             </FormInputContainer>
             <FormInputContainer>
@@ -140,7 +148,9 @@ export const CreateFormPage = () => {
                   }),
                 }}
                 options={optionsDuration}
-                id="category"
+                id="duration"
+                name="duration"
+                onChange={handleChange}
               ></Select>
             </FormInputContainer>
 
