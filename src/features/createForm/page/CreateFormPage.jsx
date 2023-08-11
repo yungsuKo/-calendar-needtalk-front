@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import Layout from '../../../Layout/Layout';
 import Select from 'react-select';
 import DatePicker from 'react-multi-date-picker';
-import { Calendar } from 'react-multi-date-picker';
 import { Datepicker } from '@mobiscroll/react';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
 import { useState } from 'react';
@@ -38,18 +37,20 @@ export const CreateFormPage = () => {
       sat: '',
     },
   });
-  const handleChange = (e) => {
+  const handleChange = (name, value) => {
+    console.log(values);
     setValues({
       ...values,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(values);
-    console.log(getCookie('accessToken'));
+
     try {
+      console.log(values);
       const result = await axios({
         url: `${serverURL}/api/forms`,
         method: 'post',
@@ -81,7 +82,7 @@ export const CreateFormPage = () => {
               <FormTextInput
                 id="subject"
                 name="subject"
-                onChange={handleChange}
+                onChange={(e) => handleChange(e.target.name, e.target.value)}
               ></FormTextInput>
             </FormInputContainer>
             <FormInputContainer>
@@ -102,6 +103,7 @@ export const CreateFormPage = () => {
                 options={options}
                 id="category"
                 name="category"
+                onChange={(data) => handleChange('category', data)}
               ></Select>
             </FormInputContainer>
             <FormInputContainer>
@@ -109,14 +111,13 @@ export const CreateFormPage = () => {
               <FormTextInput
                 id="description"
                 name="description"
-                onChange={handleChange}
+                onChange={(e) => handleChange(e.target.name, e.target.value)}
               ></FormTextInput>
             </FormInputContainer>
             <FormInputContainer>
               <label for="calendar">Calendar</label>
               <DatePicker
                 id="calendar"
-                name="calendar"
                 style={{
                   marginTop: '8px',
                   display: 'block',
@@ -129,7 +130,7 @@ export const CreateFormPage = () => {
                 }}
                 range
                 rangeHover
-                onChange={handleChange}
+                onChange={(data) => handleChange('calendar', data)}
               />
             </FormInputContainer>
             <FormInputContainer>
@@ -150,18 +151,51 @@ export const CreateFormPage = () => {
                 options={optionsDuration}
                 id="duration"
                 name="duration"
-                onChange={handleChange}
+                onChange={(data) => handleChange('duration', data)}
               ></Select>
             </FormInputContainer>
 
             <FormInputContainer>
               <label for="available">Available Timeslot</label>
-              <Datepicker
-                controls={['time']}
-                timeFormat="HH"
-                headerText="Time: {value}"
-                touchUi={false}
-              />
+              <div style={{ display: 'flex' }}>
+                <span>월</span>
+                <input></input>
+                <input></input>
+              </div>
+              <div style={{ display: 'flex' }}>
+                <span>화</span>
+                <input></input>
+                <input></input>
+              </div>
+              <div style={{ display: 'flex' }}>
+                <span>수</span>
+                <input></input>
+                <input></input>
+              </div>
+              <div style={{ display: 'flex' }}>
+                <span>목</span>
+                <input></input>
+                <input></input>
+              </div>
+              <div style={{ display: 'flex' }}>
+                <span>금</span>
+                <input></input>
+                <input></input>
+              </div>
+              <div style={{ display: 'flex' }}>
+                <span>토</span>
+                <input></input>
+                <input></input>
+              </div>
+              <div style={{ display: 'flex' }}>
+                <span>일</span>
+                <input
+                  name="available_slots.sun.start_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) => handleChange(e.target.name, e.target.value)}
+                ></input>
+                <input name="available_slots.sun.start_time"></input>
+              </div>
             </FormInputContainer>
           </FormContainer>
           <div
