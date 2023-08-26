@@ -4,7 +4,7 @@ import Select from 'react-select';
 import DatePicker from 'react-multi-date-picker';
 import { Datepicker } from '@mobiscroll/react';
 import '@mobiscroll/react/dist/css/mobiscroll.min.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { getCookie } from '../../../utils/cookies';
@@ -27,27 +27,58 @@ export const CreateFormPage = () => {
     description: '',
     category: '',
     duration: '',
-    available_slots: {
-      sun: '',
-      mon: '',
-      tue: '',
-      wen: '',
-      thu: '',
-      fri: '',
-      sat: '',
-    },
+    available_slots: {},
   });
+  const [slotValue, setSlotValue] = useState({
+    sun: { start_time: '', end_time: '' },
+    mon: { start_time: '', end_time: '' },
+    tue: { start_time: '', end_time: '' },
+    wed: { start_time: '', end_time: '' },
+    thu: { start_time: '', end_time: '' },
+    fri: { start_time: '', end_time: '' },
+    sat: { start_time: '', end_time: '' },
+  });
+  const [dateValue, setDateValue] = useState({
+    start_date: '',
+    end_date: '',
+  });
+
   const handleChange = (name, value) => {
-    console.log(values);
     setValues({
       ...values,
       [name]: value,
     });
+    console.log(values);
   };
+  const handleSlotChange = (name, value) => {
+    const [day, type] = name.split('.');
+    setSlotValue({
+      ...slotValue,
+      [day]: {
+        ...slotValue[day],
+        [type]: value,
+      },
+    });
+
+    console.log(slotValue);
+  };
+
+  const handleDateChange = (value) => {
+    setDateValue({
+      ...dateValue,
+      start_date: value[0],
+      end_date: value[1],
+    });
+
+    console.log(dateValue);
+  };
+
+  useEffect(() => {
+    setValues({ ...values, available_slots: slotValue, ...dateValue });
+  }, [slotValue, dateValue]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
 
     try {
       console.log(values);
@@ -58,8 +89,7 @@ export const CreateFormPage = () => {
           Cookie: `${getCookie('accessToken')}`,
         },
         withCredentials: true,
-
-        data: { createFormDto: values },
+        data: values,
       });
       console.log(result);
     } catch (error) {
@@ -103,7 +133,7 @@ export const CreateFormPage = () => {
                 options={options}
                 id="category"
                 name="category"
-                onChange={(data) => handleChange('category', data)}
+                onChange={(data) => handleChange('category', data.value)}
               ></Select>
             </FormInputContainer>
             <FormInputContainer>
@@ -130,7 +160,7 @@ export const CreateFormPage = () => {
                 }}
                 range
                 rangeHover
-                onChange={(data) => handleChange('calendar', data)}
+                onChange={(data) => handleDateChange(data)}
               />
             </FormInputContainer>
             <FormInputContainer>
@@ -151,7 +181,7 @@ export const CreateFormPage = () => {
                 options={optionsDuration}
                 id="duration"
                 name="duration"
-                onChange={(data) => handleChange('duration', data)}
+                onChange={(data) => handleChange('duration', data.value)}
               ></Select>
             </FormInputContainer>
 
@@ -159,42 +189,122 @@ export const CreateFormPage = () => {
               <label for="available">Available Timeslot</label>
               <div style={{ display: 'flex' }}>
                 <span>월</span>
-                <input></input>
-                <input></input>
+                <input
+                  name="mon.start_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
+                <input
+                  name="mon.end_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
               </div>
               <div style={{ display: 'flex' }}>
                 <span>화</span>
-                <input></input>
-                <input></input>
+                <input
+                  name="tue.start_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
+                <input
+                  name="tue.end_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
               </div>
               <div style={{ display: 'flex' }}>
                 <span>수</span>
-                <input></input>
-                <input></input>
+                <input
+                  name="wed.start_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
+                <input
+                  name="wed.end_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
               </div>
               <div style={{ display: 'flex' }}>
                 <span>목</span>
-                <input></input>
-                <input></input>
+                <input
+                  name="thu.start_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
+                <input
+                  name="thu.end_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
               </div>
               <div style={{ display: 'flex' }}>
                 <span>금</span>
-                <input></input>
-                <input></input>
+                <input
+                  name="fri.start_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
+                <input
+                  name="fri.end_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
               </div>
               <div style={{ display: 'flex' }}>
                 <span>토</span>
-                <input></input>
-                <input></input>
+                <input
+                  name="sat.start_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
+                <input
+                  name="sat.end_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
               </div>
               <div style={{ display: 'flex' }}>
                 <span>일</span>
                 <input
-                  name="available_slots.sun.start_time"
+                  name="sun.start_time"
                   // 따로 입력값을 받고 생성 요청전에 재생성
-                  onChange={(e) => handleChange(e.target.name, e.target.value)}
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
                 ></input>
-                <input name="available_slots.sun.start_time"></input>
+                <input
+                  name="sun.end_time"
+                  // 따로 입력값을 받고 생성 요청전에 재생성
+                  onChange={(e) =>
+                    handleSlotChange(e.target.name, e.target.value)
+                  }
+                ></input>
               </div>
             </FormInputContainer>
           </FormContainer>
